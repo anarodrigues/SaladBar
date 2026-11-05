@@ -1,0 +1,14 @@
+{
+  "name": "SaladBar",
+  "short_name": "SaladBar",
+  "description": "Build amazing salads with what is in your fridge / Monte saladas incríveis com o que tem na sua geladeira",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#166534",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
