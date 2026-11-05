@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chef de Saladas - O que tem na sua Geladeira?</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              200: '#bbf7d0',
+              500: '#22c55e',
+              600: '#16a34a',
+              700: '#15803d',
+              800: '#166534',
+              900: '#14532d',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Custom Scrollbar for Fridge Panel */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="bg-gradient-to-r from-emerald-800 via-brand-700 to-teal-800 text-white shadow-lg sticky top-0 z-30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-wrap justify-between items-center gap-4">
+      <div class="flex items-center space-x-3">
+        <div class="p-2.5 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 shadow-inner">
+          <i data-lucide="salad" class="w-8 h-8 text-emerald-300"></i>
+        </div>
+        <div>
+          <h1 class="text-2xl font-extrabold tracking-tight">Chef Salada</h1>
+          <p class="text-xs text-emerald-100/80">Monte pratos incríveis com os ingredientes da sua geladeira</p>
+        </div>
+      </div>
+      
+      <!-- Quick Counter Badge -->
+      <div class="flex items-center gap-3 bg-emerald-900/40 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10">
+        <i data-lucide="refrigerator" class="w-5 h-5 text-emerald-300"></i>
+        <span class="text-sm font-medium">Ingredientes selecionados:</span>
+        <span id="selected-count" class="bg-emerald-400 text-emerald-950 px-2.5 py-0.5 rounded-full text-xs font-extrabold">0</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Layout -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 w-full grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+    <!-- LEFT SIDEBAR: Fridge Inventory Checklist -->
+    <aside class="lg:col-span-4 xl:col-span-4 bg-white rounded-2xl shadow-sm border border-slate-200/80 p-5 flex flex-col h-[calc(100vh-6rem)] sticky top-24">
+      <!-- Sidebar Header -->
+      <div class="pb-4 border-b border-slate-100">
+        <div class="flex justify-between items-center mb-3">
+          <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+            <i data-lucide="refrigerator" class="w-5 h-5 text-brand-600"></i>
+            Sua Geladeira
+          </h2>
+          <span class="text-xs text-slate-500 font-medium">Marque o que tem em casa</span>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="flex gap-2 mb-3">
+          <button id="btn-select-all" class="flex-1 text-xs py-2 px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-lg transition-colors flex items-center justify-center gap-1.5">
+            <i data-lucide="check-square" class="w-3.5 h-3.5"></i>
+            Marcar Todos
+          </button>
+          <button id="btn-deselect-all" class="flex-1 text-xs py-2 px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-lg transition-colors flex items-center justify-center gap-1.5">
+            <i data-lucide="square" class="w-3.5 h-3.5"></i>
+            Desmarcar
+          </button>
+        </div>
+
+        <!-- Ingredient Filter Input -->
+        <div class="relative">
+          <input type="text" id="ingredient-search" placeholder="Buscar ingrediente..." class="w-full pl-9 pr-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all">
+          <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-2.5"></i>
+        </div>
+      </div>
+
+      <!-- Categories & Items Container -->
+      <div id="ingredients-container" class="overflow-y-auto flex-1 pr-1 py-3 space-y-5">
+        <!-- Rendered dynamically by JS -->
+      </div>
+    </aside>
+
+    <!-- RIGHT SECTION: Recipe Recommendations -->
+    <section class="lg:col-span-8 xl:col-span-8 flex flex-col gap-6">
+      
+      <!-- Toolbar & Filters -->
+      <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <h2 class="text-xl font-bold text-slate-800">Receitas Encontradas</h2>
+          <p id="results-summary" class="text-xs text-slate-500 mt-0.5">Mostrando 12 de 12 saladas</p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3">
+          <!-- Missing Filter Toggle -->
+          <div class="flex items-center bg-slate-100 p-1 rounded-xl">
+            <button id="filter-all" class="px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-700 transition-all filter-btn active bg-white shadow-sm">
+              Todas
+            </button>
+            <button id="filter-match" class="px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-600 hover:text-slate-900 transition-all filter-btn">
+              Prontas (0 faltantes)
+            </button>
+            <button id="filter-almost" class="px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-600 hover:text-slate-900 transition-all filter-btn">
+              Falta até 2
+            </button>
+          </div>
+
+          <!-- Sort Selector -->
+          <div class="flex items-center gap-2">
+            <label for="sort-select" class="text-xs font-medium text-slate-500 hidden sm:inline">Ordenar:</label>
+            <select id="sort-select" class="text-xs font-semibold bg-slate-50 border border-slate-200 text-slate-700 py-2 px-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500">
+              <option value="best">Melhor Combinação</option>
+              <option value="missing-asc">Menos Faltantes</option>
+              <option value="match-desc">Mais Ingredientes que Possuo</option>
+              <option value="name-asc">Nome (A-Z)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recipe Grid -->
+      <div id="recipes-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <!-- Rendered dynamically by JS -->
+      </div>
+
+      <!-- Empty State (Shown when no recipes match) -->
+      <div id="empty-state" class="hidden flex-col items-center justify-center p-12 bg-white rounded-2xl border border-dashed border-slate-300 text-center">
+        <div class="p-4 bg-emerald-50 rounded-full mb-3 text-brand-600">
+          <i data-lucide="utensils" class="w-8 h-8"></i>
+        </div>
+        <h3 class="text-lg font-bold text-slate-800">Nenhuma receita encontrada</h3>
+        <p class="text-sm text-slate-500 max-w-sm mt-1">Nenhuma salada atende aos critérios do filtro selecionado. Tente alterar os filtros ou marcar mais ingredientes da sua geladeira.</p>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-slate-200 mt-12 py-6 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-4">
+      <p class="font-medium">Chef Salada &copy; Guia Interativo de Alimentação Saudável</p>
+    </div>
+  </footer>
+
+  <!-- DATA & LOGIC -->
+  <script>
+    // --- CATEGORIZED INGREDIENTS DATA ---
+    const ingredientCategories = [
+      {
+        id: "base",
+        title: "Base de Folhas",
+        icon: "leaf",
+        items: ["Alface roxa", "Alface crespa", "Espinafre"]
+      },
+      {
+        id: "vegetais",
+        title: "Vegetais e Outros",
+        icon: "carrot",
+        items: ["Milho", "Pimentão", "Azeitona", "Palmito", "Repolho roxo", "Abacate", "Beterraba", "Grão-de-bico", "Edamame", "Cenoura", "Tomate"]
+      },
+      {
+        id: "proteina",
+        title: "Proteínas",
+        icon: "drumstick",
+        items: ["Camarão", "Ovo", "Salmão", "Frango"]
+      },
+      {
+        id: "complementos",
+        title: "Complementos e Queijos",
+        icon: "cheese",
+        items: ["Amêndoas", "Nozes", "Castanha-de-caju", "Parmesão", "Queijo Provolone"]
+      },
+      {
+        id: "frutas",
+        title: "Frutas e Doces",
+        icon: "apple",
+        items: ["Abacaxi", "Maçã", "Morango", "Uva passa", "Manga", "Tangerina"]
+      },
+      {
+        id: "molhos",
+        title: "Molhos",
+        icon: "droplet",
+        items: ["Shoyo", "Honey e Mostarda", "Balsâmico", "Italian"]
+      }
+    ];
+
+    // --- 12 RECIPES DATA ---
+    const recipes = [
+      {
+        id: 1,
+        title: "Salada Proteica Verde (Power Bowl de Edamame e Camarão)",
+        ingredients: {
+          "Base": ["Espinafre", "Alface roxa"],
+          "Vegetais e Outros": ["Edamame", "Azeitona", "Palmito"],
+          "Proteína": ["Camarão"],
+          "Fruta": ["Tangerina"],
+          "Complemento": ["Nozes"],
+          "Molho": ["Shoyo"]
+        }
+      },
+      {
+        id: 2,
+        title: "Salada Tropical do Mar com Abacaxi",
+        ingredients: {
+          "Base": ["Espinafre", "Alface roxa"],
+          "Vegetais e Outros": ["Edamame", "Azeitona", "Tomate"],
+          "Proteína": ["Camarão"],
+          "Fruta": ["Abacaxi"],
+          "Complemento": ["Nozes"],
+          "Molho": ["Balsâmico", "Shoyo"] // Optional choice handled gracefully
+        }
+      },
+      {
+        id: 3,
+        title: "Salada Agridoce de Morango e Camarão",
+        ingredients: {
+          "Base": ["Espinafre", "Alface roxa"],
+          "Vegetais e Outros": ["Edamame", "Azeitona"],
+          "Proteína": ["Camarão"],
+          "Fruta": ["Morango"],
+          "Complemento": ["Queijo Provolone", "Nozes"],
+          "Molho": ["Balsâmico"]
+        }
+      },
+      {
+        id: 4,
+        title: "Salada Colorida de Frango ao Molho Honey & Mostarda",
+        ingredients: {
+          "Base": ["Alface roxa", "Alface crespa"],
+          "Vegetais e Outros": ["Cenoura", "Repolho roxo", "Pimentão"],
+          "Proteína": ["Frango"],
+          "Fruta": ["Maçã", "Tangerina"],
+          "Complemento": ["Parmesão"],
+          "Molho": ["Honey e Mostarda"]
+        }
+      },
+      {
+        id: 5,
+        title: "Salada de Frango com Abacate e Provolone",
+        ingredients: {
+          "Base": ["Alface crespa", "Espinafre"],
+          "Vegetais e Outros": ["Tomate", "Milho", "Abacate"],
+          "Proteína": ["Frango"],
+          "Complemento": ["Queijo Provolone"],
+          "Fruta": ["Maçã", "Tangerina"],
+          "Molho": ["Italian", "Balsâmico"]
+        }
+      },
+      {
+        id: 6,
+        title: "Salada Cítrica de Frango com Tangerina",
+        ingredients: {
+          "Base": ["Alface roxa", "Espinafre"],
+          "Vegetais e Outros": ["Cenoura", "Edamame", "Pimentão"],
+          "Proteína": ["Frango"],
+          "Fruta": ["Tangerina"],
+          "Complemento": ["Castanha-de-caju"],
+          "Molho": ["Honey e Mostarda"]
+        }
+      },
+      {
+        id: 7,
+        title: "Salada Suprema do Chef (Modo Completa)",
+        ingredients: {
+          "Base": ["Alface crespa", "Repolho roxo"],
+          "Vegetais e Outros": ["Tomate", "Milho", "Cenoura", "Pimentão"],
+          "Proteína": ["Ovo", "Frango"],
+          "Complemento": ["Parmesão"],
+          "Molho": ["Italian"]
+        }
+      },
+      {
+        id: 8,
+        title: "Salada Power Vegetariana com Grão-de-bico",
+        ingredients: {
+          "Base": ["Alface roxa", "Repolho roxo"],
+          "Vegetais e Outros": ["Grão-de-bico", "Cenoura", "Pimentão"],
+          "Proteína": ["Ovo"],
+          "Complemento": ["Castanha-de-caju"],
+          "Molho": ["Honey e Mostarda"]
+        }
+      },
+      {
+        id: 9,
+        title: "Salada Suprema do Chef com Toque de Provolone",
+        ingredients: {
+          "Base": ["Alface roxa", "Espinafre"],
+          "Vegetais e Outros": ["Milho", "Palmito", "Pimentão"],
+          "Proteína": ["Frango", "Ovo"],
+          "Complemento": ["Queijo Provolone", "Parmesão"],
+          "Fruta": ["Tangerina"],
+          "Molho": ["Honey e Mostarda"]
+        }
+      },
+      {
+        id: 10,
+        title: "Salada Tropical de Salmão",
+        ingredients: {
+          "Base": ["Espinafre", "Alface crespa"],
+          "Vegetais e Outros": ["Tomate", "Milho", "Palmito"],
+          "Proteína": ["Salmão"],
+          "Fruta": ["Manga"],
+          "Complemento": ["Nozes"],
+          "Molho": ["Balsâmico"]
+        }
+      },
+      {
+        id: 11,
+        title: "Salada Colorida da Terra com Beterraba e Salmão",
+        ingredients: {
+          "Base": ["Alface crespa", "Repolho roxo"],
+          "Vegetais e Outros": ["Beterraba", "Palmito", "Tomate"],
+          "Proteína": ["Salmão"],
+          "Fruta": ["Manga"],
+          "Complemento": ["Castanha-de-caju"],
+          "Molho": ["Shoyo"]
+        }
+      },
+      {
+        id: 12,
+        title: "Salada de Salmão Defumado com Tangerina, Abacate e Castanha de Caju",
+        ingredients: {
+          "Base": ["Espinafre"],
+          "Vegetais e Outros": ["Abacate", "Pimentão"],
+          "Proteína": ["Salmão"],
+          "Fruta": ["Tangerina"],
+          "Complemento": ["Castanha-de-caju"],
+          "Molho": ["Shoyo", "Balsâmico"]
+        }
+      }
+    ];
+
+    // State management
+    let selectedIngredients = new Set();
+    let currentFilter = "all"; // "all", "match", "almost"
+    let currentSort = "best"; // "best", "missing-asc", "match-desc", "name-asc"
+
+    // Flatten all ingredients required for each recipe into a flat unique list per recipe
+    function getRecipeIngredientList(recipe) {
+      const list = new Set();
+      Object.values(recipe.ingredients).forEach(arr => {
+        arr.forEach(item => list.add(item));
+      });
+      return Array.from(list);
+    }
+
+    // Initialize UI
+    document.addEventListener("DOMContentLoaded", () => {
+      renderIngredientsList();
+      setupEventListeners();
+      updateRecipesDisplay();
+      lucide.createIcons();
+    });
+
+    // Render Fridge Inventory Sidebar Checklist
+    function renderIngredientsList(searchQuery = "") {
+      const container = document.getElementById("ingredients-container");
+      container.innerHTML = "";
+
+      ingredientCategories.forEach(cat => {
+        // Filter items if searching
+        const filteredItems = cat.items.filter(item => 
+          item.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+
+        if (filteredItems.length === 0) return;
+
+        const catEl = document.createElement("div");
+        catEl.className = "bg-slate-50 p-3 rounded-xl border border-slate-200/60";
+
+        catEl.innerHTML = `
+          <div class="flex items-center gap-2 mb-2 text-xs font-bold text-slate-700 uppercase tracking-wider">
+            <i data-lucide="${cat.icon}" class="w-4 h-4 text-brand-600"></i>
+            <span>${cat.title}</span>
+          </div>
+          <div class="space-y-1.5">
+            ${filteredItems.map(item => {
+              const isChecked = selectedIngredients.has(item);
+              return `
+                <label class="flex items-center space-x-2.5 p-1.5 rounded-lg hover:bg-white cursor-pointer transition-colors text-sm text-slate-700 select-none">
+                  <input type="checkbox" data-ingredient="${item}" ${isChecked ? 'checked' : ''} 
+                    class="ingredient-checkbox w-4 h-4 text-brand-600 rounded border-slate-300 focus:ring-brand-500 focus:ring-2 accent-brand-600 cursor-pointer">
+                  <span class="${isChecked ? 'font-medium text-slate-900' : ''}">${item}</span>
+                </label>
+              `;
+            }).join('')}
+          </div>
+        `;
+
+        container.appendChild(catEl);
+      });
+
+      lucide.createIcons();
+    }
+
+    // Attach Event Listeners
+    function setupEventListeners() {
+      // Ingredient Checkbox toggles
+      document.getElementById("ingredients-container").addEventListener("change", (e) => {
+        if (e.target.classList.contains("ingredient-checkbox")) {
+          const item = e.target.getAttribute("data-ingredient");
+          if (e.target.checked) {
+            selectedIngredients.add(item);
+          } else {
+            selectedIngredients.delete(item);
+          }
+          updateSelectedCount();
+          updateRecipesDisplay();
+        }
+      });
+
+      // Select / Deselect All
+      document.getElementById("btn-select-all").addEventListener("click", () => {
+        ingredientCategories.forEach(cat => {
+          cat.items.forEach(item => selectedIngredients.add(item));
+        });
+        renderIngredientsList(document.getElementById("ingredient-search").value);
+        updateSelectedCount();
+        updateRecipesDisplay();
+      });
+
+      document.getElementById("btn-deselect-all").addEventListener("click", () => {
+        selectedIngredients.clear();
+        renderIngredientsList(document.getElementById("ingredient-search").value);
+        updateSelectedCount();
+        updateRecipesDisplay();
+      });
+
+      // Search Filter Input
+      document.getElementById("ingredient-search").addEventListener("input", (e) => {
+        renderIngredientsList(e.target.value);
+      });
+
+      // Filter Buttons
+      const filterBtns = document.querySelectorAll(".filter-btn");
+      filterBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+          filterBtns.forEach(b => {
+            b.classList.remove("active", "bg-white", "shadow-sm", "text-slate-700");
+            b.classList.add("text-slate-600");
+          });
+          btn.classList.add("active", "bg-white", "shadow-sm", "text-slate-700");
+          btn.classList.remove("text-slate-600");
+
+          if (btn.id === "filter-all") currentFilter = "all";
+          if (btn.id === "filter-match") currentFilter = "match";
+          if (btn.id === "filter-almost") currentFilter = "almost";
+
+          updateRecipesDisplay();
+        });
+      });
+
+      // Sort Select
+      document.getElementById("sort-select").addEventListener("change", (e) => {
+        currentSort = e.target.value;
+        updateRecipesDisplay();
+      });
+    }
+
+    // Update Counter Header Badge
+    function updateSelectedCount() {
+      document.getElementById("selected-count").innerText = selectedIngredients.size;
+    }
+
+    // Process & Render Recipes
+    function updateRecipesDisplay() {
+      const grid = document.getElementById("recipes-grid");
+      const emptyState = document.getElementById("empty-state");
+      grid.innerHTML = "";
+
+      // Compute status for all recipes
+      let processed = recipes.map(recipe => {
+        const required = getRecipeIngredientList(recipe);
+        const present = required.filter(item => selectedIngredients.has(item));
+        const missing = required.filter(item => !selectedIngredients.has(item));
+
+        return {
+          ...recipe,
+          requiredList: required,
+          presentList: present,
+          missingList: missing,
+          missingCount: missing.length,
+          presentCount: present.length
+        };
+      });
+
+      // Filter Logic
+      if (currentFilter === "match") {
+        processed = processed.filter(r => r.missingCount === 0);
+      } else if (currentFilter === "almost") {
+        processed = processed.filter(r => r.missingCount <= 2);
+      }
+
+      // Sort Logic
+      processed.sort((a, b) => {
+        if (currentSort === "best") {
+          // Priority: 0 missing -> 1 missing -> 2 missing -> others, then by highest present count
+          if (a.missingCount !== b.missingCount) {
+            return a.missingCount - b.missingCount;
+          }
+          return b.presentCount - a.presentCount;
+        } else if (currentSort === "missing-asc") {
+          return a.missingCount - b.missingCount;
+        } else if (currentSort === "match-desc") {
+          return b.presentCount - a.presentCount;
+        } else if (currentSort === "name-asc") {
+          return a.title.localeCompare(b.title);
+        }
+        return 0;
+      });
+
+      // Update summary counter
+      document.getElementById("results-summary").innerText = `Mostrando ${processed.length} de ${recipes.length} saladas`;
+
+      if (processed.length === 0) {
+        emptyState.classList.remove("hidden");
+        emptyState.classList.add("flex");
+      } else {
+        emptyState.classList.add("hidden");
+        emptyState.classList.remove("flex");
+
+        processed.forEach(recipe => {
+          grid.appendChild(createRecipeCard(recipe));
+        });
+      }
+
+      lucide.createIcons();
+    }
+
+    // Create DOM element for a Recipe Card
+    function createRecipeCard(recipe) {
+      const card = document.createElement("div");
+      
+      // Determine card highlight border & badge styling based on missing count
+      let borderStyle = "border-slate-200/80 hover:border-slate-300";
+      let statusBadge = "";
+
+      if (recipe.missingCount === 0) {
+        borderStyle = "border-emerald-500/80 ring-1 ring-emerald-500/30 bg-gradient-to-b from-emerald-50/20 to-white";
+        statusBadge = `
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">
+            <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-600"></i>
+            Pronta para fazer!
+          </span>
+        `;
+      } else if (recipe.missingCount <= 2) {
+        borderStyle = "border-amber-400/80 bg-gradient-to-b from-amber-50/10 to-white";
+        statusBadge = `
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800 border border-amber-200">
+            <i data-lucide="alert-circle" class="w-3.5 h-3.5 text-amber-600"></i>
+            Faltam ${recipe.missingCount} ingrediente${recipe.missingCount > 1 ? 's' : ''}
+          </span>
+        `;
+      } else {
+        statusBadge = `
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-600 border border-slate-200">
+            <i data-lucide="info" class="w-3.5 h-3.5 text-slate-400"></i>
+            Faltam ${recipe.missingCount} ingredientes
+          </span>
+        `;
+      }
+
+      card.className = `bg-white rounded-2xl border ${borderStyle} p-5 shadow-sm transition-all duration-200 flex flex-col justify-between hover:shadow-md`;
+
+      card.innerHTML = `
+        <div>
+          <!-- Card Top Info -->
+          <div class="flex items-start justify-between gap-3 mb-3">
+            <h3 class="text-base font-bold text-slate-800 leading-snug">${recipe.title}</h3>
+            <div class="shrink-0">
+              ${statusBadge}
+            </div>
+          </div>
+
+          <!-- Missing Ingredients Banner (if 1 or 2 missing) -->
+          ${recipe.missingCount > 0 && recipe.missingCount <= 2 ? `
+            <div class="mb-4 p-2.5 bg-amber-50 rounded-xl border border-amber-200/60 text-xs text-amber-900">
+              <span class="font-bold block mb-1">Falta para completar:</span>
+              <div class="flex flex-wrap gap-1">
+                ${recipe.missingList.map(item => `
+                  <span class="bg-amber-100 text-amber-800 px-2 py-0.5 rounded-md font-semibold">${item}</span>
+                `).join('')}
+              </div>
+            </div>
+          ` : ''}
+
+          <!-- Detailed Recipe Ingredients Categorized -->
+          <div class="space-y-2.5 my-4">
+            ${Object.entries(recipe.ingredients).map(([catName, items]) => {
+              return `
+                <div class="text-xs">
+                  <span class="font-bold text-slate-500 uppercase tracking-wider text-[10px] block mb-1">${catName}</span>
+                  <div class="flex flex-wrap gap-1.5">
+                    ${items.map(item => {
+                      const hasIt = selectedIngredients.has(item);
+                      return `
+                        <span class="px-2 py-1 rounded-md text-xs font-medium flex items-center gap-1 ${
+                          hasIt 
+                            ? 'bg-emerald-50 text-emerald-800 border border-emerald-200/80' 
+                            : 'bg-slate-100 text-slate-500 border border-slate-200 line-through opacity-75'
+                        }">
+                          <i data-lucide="${hasIt ? 'check' : 'x'}" class="w-3 h-3 ${hasIt ? 'text-emerald-600' : 'text-slate-400'}"></i>
+                          ${item}
+                        </span>
+                      `;
+                    }).join('')}
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+
+        <!-- Card Footer Stats -->
+        <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 mt-2">
+          <span class="flex items-center gap-1">
+            <i data-lucide="layers" class="w-3.5 h-3.5 text-slate-400"></i>
+            ${recipe.requiredList.length} Ingredientes no total
+          </span>
+          <span class="font-medium text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md">
+            ${recipe.presentCount} de ${recipe.requiredList.length} disponíveis
+          </span>
+        </div>
+      `;
+
+      return card;
+    }
+  </script>
+</body>
+</html>
