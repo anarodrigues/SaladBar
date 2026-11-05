@@ -906,6 +906,15 @@
         const missingIds = requiredIds.filter(id => !selectedIngredientIds.has(id));
         const matchPercentage = Math.round((presentIds.length / requiredIds.length) * 100);
 
+        // "Best Match" scoring: leafy greens are ignored; protein & dressings come first
+        const catOf = (id) => getIngredientById(id).cat;
+        const keyCats = ["proteina", "molhos"];
+        const keyMissingCount = missingIds.filter(id => keyCats.includes(catOf(id))).length;
+        const otherMissingCount = missingIds.filter(id => catOf(id) !== "base" && !keyCats.includes(catOf(id))).length;
+        const nonBaseIds = requiredIds.filter(id => catOf(id) !== "base");
+        const nonBasePresent = nonBaseIds.filter(id => selectedIngredientIds.has(id)).length;
+        const bestScorePct = nonBaseIds.length ? nonBasePresent / nonBaseIds.length : 1;
+
         return {
           ...recipe,
           titleText: recipe.title[currentLang],
@@ -914,7 +923,10 @@
           missingIds,
           missingCount: missingIds.length,
           presentCount: presentIds.length,
-          matchPercentage
+          matchPercentage,
+          keyMissingCount,
+          otherMissingCount,
+          bestScorePct
         };
       });
 
@@ -930,10 +942,18 @@
       // Sort Logic
       processed.sort((a, b) => {
         if (currentSort === "best") {
-          if (a.missingCount !== b.missingCount) {
-            return a.missingCount - b.missingCount;
+          // 1) fewest missing proteins/dressings, 2) fewest other missing items
+          // (vegetables, toppings, fruits), 3) highest match excluding leafy greens
+          if (a.keyMissingCount !== b.keyMissingCount) {
+            return a.keyMissingCount - b.keyMissingCount;
           }
-          return b.matchPercentage - a.matchPercentage;
+          if (a.otherMissingCount !== b.otherMissingCount) {
+            return a.otherMissingCount - b.otherMissingCount;
+          }
+          if (a.bestScorePct !== b.bestScorePct) {
+            return b.bestScorePct - a.bestScorePct;
+          }
+          return a.titleText.localeCompare(b.titleText, currentLang);
         } else if (currentSort === "missing-asc") {
           return a.missingCount - b.missingCount;
         } else if (currentSort === "match-desc") {
