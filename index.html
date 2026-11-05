@@ -81,16 +81,22 @@
 
       <!-- Quick Actions Header Badge / Mobile Trigger -->
       <div class="flex items-center gap-2">
+        <!-- Language Switcher Toggle -->
+        <div class="bg-emerald-950/50 border border-white/20 rounded-xl p-1 flex items-center gap-1">
+          <button id="lang-pt-btn" class="px-2 py-1 rounded-lg text-xs font-bold transition-all text-emerald-950 bg-emerald-400 shadow-sm">PT</button>
+          <button id="lang-en-btn" class="px-2 py-1 rounded-lg text-xs font-bold transition-all text-emerald-100 hover:text-white">EN</button>
+        </div>
+
         <button id="mobile-drawer-toggle" class="lg:hidden flex items-center gap-2 bg-emerald-500/20 hover:bg-emerald-500/30 active:scale-95 border border-emerald-300/30 px-3 py-2 rounded-xl text-white font-medium text-xs transition-all touch-target">
           <i data-lucide="refrigerator" class="w-4 h-4 text-emerald-300"></i>
-          <span>Geladeira</span>
+          <span data-i18n="fridgeBtn">Geladeira</span>
           <span id="mobile-badge-count" class="bg-emerald-400 text-emerald-950 font-extrabold px-2 py-0.5 rounded-full text-xs">0</span>
         </button>
 
         <!-- Desktop Counter Display -->
         <div class="hidden lg:flex items-center gap-2.5 bg-emerald-950/40 border border-white/10 px-3.5 py-1.5 rounded-xl text-xs">
           <i data-lucide="refrigerator" class="w-4 h-4 text-emerald-300"></i>
-          <span class="text-emerald-100 font-medium">Ingredientes marcados:</span>
+          <span class="text-emerald-100 font-medium" data-i18n="selectedCountLabel">Ingredientes marcados:</span>
           <span id="desktop-badge-count" class="bg-emerald-400 text-emerald-950 font-extrabold px-2 py-0.5 rounded-full text-xs">0</span>
         </div>
       </div>
@@ -101,7 +107,7 @@
   <div class="lg:hidden fixed bottom-4 right-4 z-20">
     <button id="floating-drawer-toggle" class="bg-brand-600 hover:bg-brand-700 text-white font-bold py-3 px-5 rounded-full shadow-lg shadow-brand-900/30 flex items-center gap-2.5 active:scale-95 transition-all touch-target border border-emerald-400/30">
       <i data-lucide="refrigerator" class="w-5 h-5 text-emerald-200"></i>
-      <span class="text-sm">Minha Geladeira</span>
+      <span class="text-sm" data-i18n="myFridge">Minha Geladeira</span>
       <span id="floating-badge-count" class="bg-white text-brand-800 text-xs font-black px-2 py-0.5 rounded-full">0</span>
     </button>
   </div>
@@ -123,8 +129,8 @@
               <i data-lucide="refrigerator" class="w-5 h-5"></i>
             </div>
             <div>
-              <h2 class="text-base font-bold text-slate-800 leading-tight">Minha Geladeira</h2>
-              <p class="text-[11px] text-slate-500">Selecione o que você possui</p>
+              <h2 class="text-base font-bold text-slate-800 leading-tight" data-i18n="myFridge">Minha Geladeira</h2>
+              <p class="text-[11px] text-slate-500" data-i18n="selectSub">Selecione o que você possui</p>
             </div>
           </div>
 
@@ -138,11 +144,11 @@
         <div class="grid grid-cols-2 gap-2 pt-1">
           <button id="btn-select-all" class="text-xs font-semibold py-2 px-3 bg-emerald-50 hover:bg-emerald-100 text-brand-800 border border-emerald-200/60 rounded-xl transition-all flex items-center justify-center gap-1.5 touch-target">
             <i data-lucide="check-square" class="w-4 h-4 text-brand-600"></i>
-            Marcar Todos
+            <span data-i18n="selectAll">Marcar Todos</span>
           </button>
           <button id="btn-deselect-all" class="text-xs font-semibold py-2 px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl transition-all flex items-center justify-center gap-1.5 touch-target">
             <i data-lucide="square" class="w-4 h-4 text-slate-500"></i>
-            Limpar
+            <span data-i18n="clearAll">Limpar</span>
           </button>
         </div>
 
@@ -164,7 +170,7 @@
       <!-- Drawer Bottom Apply Bar for Mobile -->
       <div class="p-4 border-t border-slate-100 bg-white lg:hidden">
         <button id="apply-drawer-btn" class="w-full bg-brand-600 text-white font-bold py-3 px-4 rounded-xl shadow-md hover:bg-brand-700 active:scale-95 transition-all text-sm flex items-center justify-center gap-2 touch-target">
-          <span>Ver Receitas</span>
+          <span data-i18n="seeRecipes">Ver Receitas</span>
           <i data-lucide="arrow-right" class="w-4 h-4"></i>
         </button>
       </div>
@@ -178,34 +184,34 @@
         
         <div class="flex flex-wrap items-center justify-between gap-2">
           <div>
-            <h2 class="text-lg sm:text-xl font-bold text-slate-800">Sugestões de Saladas</h2>
-            <p id="results-summary" class="text-xs text-slate-500">Carregando receitas...</p>
+            <h2 class="text-lg sm:text-xl font-bold text-slate-800" data-i18n="recipeTitle">Sugestões de Saladas</h2>
+            <p id="results-summary" class="text-xs text-slate-500">Exibindo receitas...</p>
           </div>
 
           <!-- Sort Select Menu -->
           <div class="flex items-center gap-1.5 ml-auto">
-            <label for="sort-select" class="text-xs font-medium text-slate-500 hidden sm:inline">Ordenar:</label>
+            <label for="sort-select" class="text-xs font-medium text-slate-500 hidden sm:inline" data-i18n="sortLabel">Ordenar:</label>
             <select id="sort-select" class="text-xs font-semibold bg-slate-50 border border-slate-200 text-slate-700 py-2 px-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 touch-target">
-              <option value="best">Melhor Combinação</option>
-              <option value="missing-asc">Menos Faltantes</option>
-              <option value="match-desc">Mais Possuídos</option>
-              <option value="name-asc">Nome (A-Z)</option>
+              <option value="best" data-i18n="sortBest">Melhor Combinação</option>
+              <option value="missing-asc" data-i18n="sortMissingAsc">Menos Faltantes</option>
+              <option value="match-desc" data-i18n="sortMatchDesc">Mais Possuídos</option>
+              <option value="name-asc" data-i18n="sortNameAsc">Nome (A-Z)</option>
             </select>
           </div>
         </div>
 
         <!-- Filter Toggle Pills -->
         <div class="flex items-center gap-1 overflow-x-auto pb-1 sm:pb-0 scrollbar-none border-t border-slate-100 pt-3">
-          <button id="filter-all" class="px-3 py-2 text-xs font-bold rounded-xl whitespace-nowrap transition-all filter-btn bg-brand-600 text-white shadow-sm touch-target">
+          <button id="filter-all" class="px-3 py-2 text-xs font-bold rounded-xl whitespace-nowrap transition-all filter-btn bg-brand-600 text-white shadow-sm touch-target" data-i18n="filterAll">
             Todas (12)
           </button>
-          <button id="filter-exact" class="px-3 py-2 text-xs font-semibold rounded-xl text-slate-600 hover:bg-slate-100 whitespace-nowrap transition-all filter-btn touch-target">
+          <button id="filter-exact" class="px-3 py-2 text-xs font-semibold rounded-xl text-slate-600 hover:bg-slate-100 whitespace-nowrap transition-all filter-btn touch-target" data-i18n="filterExact">
             Prontas (0 faltantes)
           </button>
-          <button id="filter-1-missing" class="px-3 py-2 text-xs font-semibold rounded-xl text-slate-600 hover:bg-slate-100 whitespace-nowrap transition-all filter-btn touch-target">
+          <button id="filter-1-missing" class="px-3 py-2 text-xs font-semibold rounded-xl text-slate-600 hover:bg-slate-100 whitespace-nowrap transition-all filter-btn touch-target" data-i18n="filterMissing1">
             Falta 1
           </button>
-          <button id="filter-2-missing" class="px-3 py-2 text-xs font-semibold rounded-xl text-slate-600 hover:bg-slate-100 whitespace-nowrap transition-all filter-btn touch-target">
+          <button id="filter-2-missing" class="px-3 py-2 text-xs font-semibold rounded-xl text-slate-600 hover:bg-slate-100 whitespace-nowrap transition-all filter-btn touch-target" data-i18n="filterMissing2">
             Faltam até 2
           </button>
         </div>
@@ -222,9 +228,9 @@
         <div class="p-4 bg-emerald-50 rounded-full mb-3 text-brand-600">
           <i data-lucide="salad" class="w-8 h-8"></i>
         </div>
-        <h3 class="text-base font-bold text-slate-800">Nenhuma salada nesta categoria</h3>
-        <p class="text-xs text-slate-500 max-w-xs mt-1">Tente selecionar mais ingredientes na sua geladeira ou mude o filtro para visualizar mais opções.</p>
-        <button id="empty-open-drawer" class="mt-4 px-4 py-2 bg-brand-600 text-white rounded-xl text-xs font-bold shadow-sm hover:bg-brand-700 transition-all touch-target lg:hidden">
+        <h3 class="text-base font-bold text-slate-800" data-i18n="emptyTitle">Nenhuma salada nesta categoria</h3>
+        <p class="text-xs text-slate-500 max-w-xs mt-1" data-i18n="emptyDesc">Tente selecionar mais ingredientes na sua geladeira ou mude o filtro para visualizar mais opções.</p>
+        <button id="empty-open-drawer" class="mt-4 px-4 py-2 bg-brand-600 text-white rounded-xl text-xs font-bold shadow-sm hover:bg-brand-700 transition-all touch-target lg:hidden" data-i18n="openFridge">
           Abrir Geladeira
         </button>
       </div>
@@ -237,208 +243,342 @@
   <footer class="bg-white border-t border-slate-200/80 py-6 mt-8 text-center text-xs text-slate-500">
     <div class="max-w-7xl mx-auto px-4">
       <p class="font-semibold text-slate-700">SaladBar</p>
-      <p class="mt-0.5 text-slate-400">Guia de Saladas & Combinações Inteligentes</p>
+      <p class="mt-0.5 text-slate-400" data-i18n="footerSub">Guia de Saladas & Combinações Inteligentes</p>
     </div>
   </footer>
 
-  <!-- JAVASCRIPT LOGIC -->
+  <!-- JAVASCRIPT LOGIC WITH DYNAMIC I18N -->
   <script>
-    // --- 1. CATEGORIZED INGREDIENTS LIST (Alphabetized within categories) ---
-    const ingredientCategories = [
-      {
-        id: "base",
-        title: "Base de Folhas",
-        icon: "leaf",
-        items: ["Alface crespa", "Alface roxa", "Espinafre"]
+    // --- BILINGUAL TRANSLATIONS & DICTIONARY ---
+    let currentLang = "pt";
+
+    const translations = {
+      pt: {
+        subtitle: "Monte saladas incríveis com o que tem na sua geladeira",
+        fridgeBtn: "Geladeira",
+        selectedCountLabel: "Ingredientes marcados:",
+        myFridge: "Minha Geladeira",
+        selectSub: "Selecione o que você possui",
+        selectAll: "Marcar Todos",
+        clearAll: "Limpar",
+        searchPlaceholder: "Filtrar ingrediente...",
+        seeRecipes: "Ver Receitas",
+        recipeTitle: "Sugestões de Saladas",
+        sortLabel: "Ordenar:",
+        sortBest: "Melhor Combinação",
+        sortMissingAsc: "Menos Faltantes",
+        sortMatchDesc: "Mais Possuídos",
+        sortNameAsc: "Nome (A-Z)",
+        filterAll: "Todas (12)",
+        filterExact: "Prontas (0 faltantes)",
+        filterMissing1: "Falta 1",
+        filterMissing2: "Faltam até 2",
+        emptyTitle: "Nenhuma salada nesta categoria",
+        emptyDesc: "Tente selecionar mais ingredientes na sua geladeira ou mude o filtro para visualizar mais opções.",
+        openFridge: "Abrir Geladeira",
+        footerSub: "Guia de Saladas & Combinações Inteligentes",
+        showingCount: (count, total) => `Exibindo ${count} de ${total} receitas`,
+        noIngredientFound: (q) => `Nenhum ingrediente encontrado com "${q}".`,
+        readyBadge: "Pronta",
+        missing1Badge: "Falta 1",
+        missing2Badge: "Faltam 2",
+        missingNBadge: (n) => `Faltam ${n}`,
+        missingTitle: "Falta na sua geladeira:",
+        matchLabel: "Aproveitamento:",
+        totalIngredients: (n) => `${n} ingredientes total`,
+        onHand: (p, r) => `${p} / ${r} na mão`
       },
-      {
-        id: "vegetais",
-        title: "Vegetais",
-        icon: "carrot",
-        items: ["Abacate", "Azeitona", "Beterraba", "Cenoura", "Edamame", "Grao de bico", "Milho", "Palmito", "Pimentao", "Repolho roxo", "Tomate"]
-      },
-      {
-        id: "proteina",
-        title: "Proteína",
-        icon: "drumstick",
-        items: ["Camarao", "Frango", "Ovo", "Salmao"]
-      },
-      {
-        id: "complementos",
-        title: "Complementos",
-        icon: "cheese",
-        items: ["Amendoas", "Castanha-de-caju", "Nozes", "Parmesao", "Queijo Provolone"]
-      },
-      {
-        id: "doces",
-        title: "Doces",
-        icon: "apple",
-        items: ["Abacaxi (congelado)", "Manga", "Maça verde", "Morango", "Tangerina", "Uva passa"]
-      },
-      {
-        id: "molhos",
-        title: "Molhos",
-        icon: "droplet",
-        items: ["Azeite e Limão", "Balsamico", "Honey e Mostarda", "Italian", "Shoyo"]
+      en: {
+        subtitle: "Build amazing salads with what is in your fridge",
+        fridgeBtn: "Fridge",
+        selectedCountLabel: "Selected ingredients:",
+        myFridge: "My Fridge",
+        selectSub: "Select what you have in stock",
+        selectAll: "Select All",
+        clearAll: "Clear",
+        searchPlaceholder: "Filter ingredient...",
+        seeRecipes: "View Recipes",
+        recipeTitle: "Salad Suggestions",
+        sortLabel: "Sort by:",
+        sortBest: "Best Match",
+        sortMissingAsc: "Least Missing",
+        sortMatchDesc: "Most Owned",
+        sortNameAsc: "Name (A-Z)",
+        filterAll: "All (12)",
+        filterExact: "Ready (0 missing)",
+        filterMissing1: "Missing 1",
+        filterMissing2: "Missing up to 2",
+        emptyTitle: "No salads in this category",
+        emptyDesc: "Try selecting more ingredients in your fridge or change your filters.",
+        openFridge: "Open Fridge Drawer",
+        footerSub: "Smart Salad Guide & Recipes",
+        showingCount: (count, total) => `Showing ${count} of ${total} recipes`,
+        noIngredientFound: (q) => `No ingredients found matching "${q}".`,
+        readyBadge: "Ready",
+        missing1Badge: "Missing 1",
+        missing2Badge: "Missing 2",
+        missingNBadge: (n) => `Missing ${n}`,
+        missingTitle: "Missing from your fridge:",
+        matchLabel: "Match rate:",
+        totalIngredients: (n) => `${n} ingredients total`,
+        onHand: (p, r) => `${p} / ${r} in stock`
       }
+    };
+
+    // Category mappings (internal ID -> PT/EN titles and icon)
+    const categoryInfo = {
+      base: { icon: "leaf", pt: "Base de Folhas", en: "Leafy Greens" },
+      vegetais: { icon: "carrot", pt: "Vegetais", en: "Vegetables" },
+      proteina: { icon: "drumstick", pt: "Proteína", en: "Proteins" },
+      complementos: { icon: "cheese", pt: "Complementos", en: "Toppings" },
+      doces: { icon: "apple", pt: "Doces", en: "Fruits & Sweets" },
+      molhos: { icon: "droplet", pt: "Molhos", en: "Dressings" }
+    };
+
+    // Universal Ingredient Master List with IDs
+    const ingredientsMaster = [
+      // Base
+      { id: "alface_crespa", cat: "base", pt: "Alface crespa", en: "Crispy Lettuce" },
+      { id: "alface_roxa", cat: "base", pt: "Alface roxa", en: "Red Leaf Lettuce" },
+      { id: "espinafre", cat: "base", pt: "Espinafre", en: "Spinach" },
+
+      // Vegetais
+      { id: "abacate", cat: "vegetais", pt: "Abacate", en: "Avocado" },
+      { id: "azeitona", cat: "vegetais", pt: "Azeitona", en: "Olives" },
+      { id: "beterraba", cat: "vegetais", pt: "Beterraba", en: "Beetroot" },
+      { id: "cenoura", cat: "vegetais", pt: "Cenoura", en: "Carrot" },
+      { id: "edamame", cat: "vegetais", pt: "Edamame", en: "Edamame" },
+      { id: "grao_de_bico", cat: "vegetais", pt: "Grão-de-bico", en: "Chickpeas" },
+      { id: "milho", cat: "vegetais", pt: "Milho", en: "Corn" },
+      { id: "palmito", cat: "vegetais", pt: "Palmito", en: "Hearts of Palm" },
+      { id: "pimentao", cat: "vegetais", pt: "Pimentão", en: "Bell Pepper" },
+      { id: "repolho_roxo", cat: "vegetais", pt: "Repolho roxo", en: "Red Cabbage" },
+      { id: "tomate", cat: "vegetais", pt: "Tomate", en: "Tomato" },
+
+      // Proteina
+      { id: "camarao", cat: "proteina", pt: "Camarão", en: "Shrimp" },
+      { id: "frango", cat: "proteina", pt: "Frango", en: "Chicken" },
+      { id: "ovo", cat: "proteina", pt: "Ovo", en: "Egg" },
+      { id: "salmao", cat: "proteina", pt: "Salmão", en: "Salmon" },
+
+      // Complementos
+      { id: "amendoas", cat: "complementos", pt: "Amêndoas", en: "Almonds" },
+      { id: "castanha_caju", cat: "complementos", pt: "Castanha-de-caju", en: "Cashews" },
+      { id: "nozes", cat: "complementos", pt: "Nozes", en: "Walnuts" },
+      { id: "parmesao", cat: "complementos", pt: "Parmesão", en: "Parmesan" },
+      { id: "queijo_provolone", cat: "complementos", pt: "Queijo Provolone", en: "Provolone Cheese" },
+
+      // Doces
+      { id: "abacaxi", cat: "doces", pt: "Abacaxi (congelado)", en: "Pineapple (frozen)" },
+      { id: "maca", cat: "doces", pt: "Maçã", en: "Apple" },
+      { id: "manga", cat: "doces", pt: "Manga", en: "Mango" },
+      { id: "morango", cat: "doces", pt: "Morango", en: "Strawberry" },
+      { id: "tangerina", cat: "doces", pt: "Tangerina", en: "Tangerine" },
+      { id: "uva_passa", cat: "doces", pt: "Uva passa", en: "Raisins" },
+
+      // Molhos
+      { id: "azeite_limao", cat: "molhos", pt: "Azeite e Limão", en: "Olive Oil & Lemon" },
+      { id: "balsamico", cat: "molhos", pt: "Balsâmico", en: "Balsamic" },
+      { id: "honey_mostarda", cat: "molhos", pt: "Honey e Mostarda", en: "Honey Mustard" },
+      { id: "italian", cat: "molhos", pt: "Italian", en: "Italian Dressing" },
+      { id: "shoyo", cat: "molhos", pt: "Shoyo", en: "Soy Sauce" }
     ];
 
-    // --- 2. RECIPES LIST (Saladas 1 to 12) ---
-    const recipes = [
+    // Helper map ID to Object
+    const getIngredientById = (id) => ingredientsMaster.find(i => i.id === id);
+
+    // --- RECIPES LIST WITH BOTH LANGUAGES ---
+    const recipesData = [
       {
         id: 1,
-        title: "Salada Proteica Verde (Power Bowl de Edamame e Camarão)",
+        title: {
+          pt: "Salada Proteica Verde (Power Bowl de Edamame e Camarão)",
+          en: "Green Protein Bowl (Edamame & Shrimp Power Bowl)"
+        },
         ingredients: {
-          "Base": ["Espinafre", "Alface roxa"],
-          "Vegetais": ["Edamame", "Azeitona", "Palmito"],
-          "Proteína": ["Camarao"],
-          "Doces": ["Tangerina"],
-          "Complementos": ["Nozes"],
-          "Molhos": ["Shoyo"]
+          base: ["espinafre", "alface_roxa"],
+          vegetais: ["edamame", "azeitona", "palmito"],
+          proteina: ["camarao"],
+          doces: ["tangerina"],
+          complementos: ["nozes"],
+          molhos: ["shoyo"]
         }
       },
       {
         id: 2,
-        title: "Salada Tropical do Mar com Abacaxi",
+        title: {
+          pt: "Salada Tropical do Mar com Abacaxi",
+          en: "Tropical Seafood Salad with Pineapple"
+        },
         ingredients: {
-          "Base": ["Espinafre", "Alface roxa"],
-          "Vegetais": ["Edamame", "Azeitona", "Tomate"],
-          "Proteína": ["Camarao"],
-          "Doces": ["Abacaxi (congelado)"],
-          "Complementos": ["Nozes"],
-          "Molhos": ["Balsamico", "Shoyo"]
+          base: ["espinafre", "alface_roxa"],
+          vegetais: ["edamame", "azeitona", "tomate"],
+          proteina: ["camarao"],
+          doces: ["abacaxi"],
+          complementos: ["nozes"],
+          molhos: ["balsamico", "shoyo"]
         }
       },
       {
         id: 3,
-        title: "Salada Agridoce de Morango e Camarão",
+        title: {
+          pt: "Salada Agridoce de Morango e Camarão",
+          en: "Sweet & Savory Strawberry Shrimp Salad"
+        },
         ingredients: {
-          "Base": ["Espinafre", "Alface roxa"],
-          "Vegetais": ["Edamame", "Azeitona"],
-          "Proteína": ["Camarao"],
-          "Doces": ["Morango"],
-          "Complementos": ["Queijo Provolone", "Nozes"],
-          "Molhos": ["Balsamico"]
+          base: ["espinafre", "alface_roxa"],
+          vegetais: ["edamame", "azeitona"],
+          proteina: ["camarao"],
+          doces: ["morango"],
+          complementos: ["queijo_provolone", "nozes"],
+          molhos: ["balsamico"]
         }
       },
       {
         id: 4,
-        title: "Salada Colorida de Frango ao Molho Honey & Mostarda",
+        title: {
+          pt: "Salada Colorida de Frango ao Molho Honey & Mostarda",
+          en: "Colorful Chicken Salad with Honey Mustard Dressing"
+        },
         ingredients: {
-          "Base": ["Alface roxa", "Alface crespa"],
-          "Vegetais": ["Cenoura", "Repolho roxo", "Pimentao"],
-          "Proteína": ["Frango"],
-          "Doces": ["Maça verde", "Tangerina"],
-          "Complementos": ["Parmesao"],
-          "Molhos": ["Honey e Mostarda"]
+          base: ["alface_roxa", "alface_crespa"],
+          vegetais: ["cenoura", "repolho_roxo", "pimentao"],
+          proteina: ["frango"],
+          doces: ["maca", "tangerina"],
+          complementos: ["parmesao"],
+          molhos: ["honey_mostarda"]
         }
       },
       {
         id: 5,
-        title: "Salada de Frango com Abacate e Provolone",
+        title: {
+          pt: "Salada de Frango com Abacate e Provolone",
+          en: "Chicken Salad with Avocado & Provolone"
+        },
         ingredients: {
-          "Base": ["Alface crespa", "Espinafre"],
-          "Vegetais": ["Tomate", "Milho", "Abacate"],
-          "Proteína": ["Frango"],
-          "Complementos": ["Queijo Provolone"],
-          "Doces": ["Maça verde", "Tangerina"],
-          "Molhos": ["Italian", "Balsamico"]
+          base: ["alface_crespa", "espinafre"],
+          vegetais: ["tomate", "milho", "abacate"],
+          proteina: ["frango"],
+          complementos: ["queijo_provolone"],
+          doces: ["maca", "tangerina"],
+          molhos: ["italian", "balsamico"]
         }
       },
       {
         id: 6,
-        title: "Salada Cítrica de Frango com Tangerina",
+        title: {
+          pt: "Salada Cítrica de Frango com Tangerina",
+          en: "Citrus Chicken Salad with Tangerine"
+        },
         ingredients: {
-          "Base": ["Alface roxa", "Espinafre"],
-          "Vegetais": ["Cenoura", "Edamame", "Pimentao"],
-          "Proteína": ["Frango"],
-          "Doces": ["Tangerina"],
-          "Complementos": ["Castanha-de-caju"],
-          "Molhos": ["Honey e Mostarda"]
+          base: ["alface_roxa", "espinafre"],
+          vegetais: ["cenoura", "edamame", "pimentao"],
+          proteina: ["frango"],
+          doces: ["tangerina"],
+          complementos: ["castanha_caju"],
+          molhos: ["honey_mostarda"]
         }
       },
       {
         id: 7,
-        title: "Salada Suprema do Chef (Modo Completa)",
+        title: {
+          pt: "Salada Suprema do Chef (Modo Completa)",
+          en: "Chef's Supreme Salad (Full Version)"
+        },
         ingredients: {
-          "Base": ["Alface crespa", "Repolho roxo"],
-          "Vegetais": ["Tomate", "Milho", "Cenoura", "Pimentao"],
-          "Proteína": ["Ovo", "Frango"],
-          "Complementos": ["Parmesao"],
-          "Molhos": ["Italian"]
+          base: ["alface_crespa", "repolho_roxo"],
+          vegetais: ["tomate", "milho", "cenoura", "pimentao"],
+          proteina: ["ovo", "frango"],
+          complementos: ["parmesao"],
+          molhos: ["italian"]
         }
       },
       {
         id: 8,
-        title: "Salada Power Vegetariana com Grão-de-bico",
+        title: {
+          pt: "Salada Power Vegetariana com Grão-de-bico",
+          en: "Power Chickpea Vegetarian Salad"
+        },
         ingredients: {
-          "Base": ["Alface roxa", "Repolho roxo"],
-          "Vegetais": ["Grao de bico", "Cenoura", "Pimentao"],
-          "Proteína": ["Ovo"],
-          "Complementos": ["Castanha-de-caju"],
-          "Molhos": ["Honey e Mostarda"]
+          base: ["alface_roxa", "repolho_roxo"],
+          vegetais: ["grao_de_bico", "cenoura", "pimentao"],
+          proteina: ["ovo"],
+          complementos: ["castanha_caju"],
+          molhos: ["honey_mostarda"]
         }
       },
       {
         id: 9,
-        title: "Salada Suprema do Chef com Toque de Provolone",
+        title: {
+          pt: "Salada Suprema do Chef com Toque de Provolone",
+          en: "Chef's Supreme Salad with Provolone Touch"
+        },
         ingredients: {
-          "Base": ["Alface roxa", "Espinafre"],
-          "Vegetais": ["Milho", "Palmito", "Pimentao"],
-          "Proteína": ["Frango", "Ovo"],
-          "Complementos": ["Queijo Provolone", "Parmesao"],
-          "Doces": ["Tangerina"],
-          "Molhos": ["Honey e Mostarda"]
+          base: ["alface_roxa", "espinafre"],
+          vegetais: ["milho", "palmito", "pimentao"],
+          proteina: ["frango", "ovo"],
+          complementos: ["queijo_provolone", "parmesao"],
+          doces: ["tangerina"],
+          molhos: ["honey_mostarda"]
         }
       },
       {
         id: 10,
-        title: "Salada Tropical de Salmão",
+        title: {
+          pt: "Salada Tropical de Salmão",
+          en: "Tropical Salmon Salad"
+        },
         ingredients: {
-          "Base": ["Espinafre", "Alface crespa"],
-          "Vegetais": ["Tomate", "Milho", "Palmito"],
-          "Proteína": ["Salmao"],
-          "Doces": ["Manga"],
-          "Complementos": ["Nozes"],
-          "Molhos": ["Balsamico"]
+          base: ["espinafre", "alface_crespa"],
+          vegetais: ["tomate", "milho", "palmito"],
+          proteina: ["salmao"],
+          doces: ["manga"],
+          complementos: ["nozes"],
+          molhos: ["balsamico"]
         }
       },
       {
         id: 11,
-        title: "Salada Colorida da Terra com Beterraba e Salmão",
+        title: {
+          pt: "Salada Colorida da Terra com Beterraba e Salmão",
+          en: "Earthy Beet & Salmon Salad"
+        },
         ingredients: {
-          "Base": ["Alface crespa", "Repolho roxo"],
-          "Vegetais": ["Beterraba", "Palmito", "Tomate"],
-          "Proteína": ["Salmao"],
-          "Doces": ["Manga"],
-          "Complementos": ["Castanha-de-caju"],
-          "Molhos": ["Shoyo"]
+          base: ["alface_crespa", "repolho_roxo"],
+          vegetais: ["beterraba", "palmito", "tomate"],
+          proteina: ["salmao"],
+          doces: ["manga"],
+          complementos: ["castanha_caju"],
+          molhos: ["shoyo"]
         }
       },
       {
         id: 12,
-        title: "Salada de Salmão Defumado com Tangerina, Abacate e Castanha de Caju",
+        title: {
+          pt: "Salada de Salmão Defumado com Tangerina, Abacate e Castanha de Caju",
+          en: "Smoked Salmon Salad with Tangerine, Avocado & Cashews"
+        },
         ingredients: {
-          "Base": ["Espinafre"],
-          "Vegetais": ["Abacate", "Pimentao"],
-          "Proteína": ["Salmao"],
-          "Doces": ["Tangerina"],
-          "Complementos": ["Castanha-de-caju"],
-          "Molhos": ["Shoyo", "Balsamico", "Azeite e Limão"]
+          base: ["espinafre"],
+          vegetais: ["abacate", "pimentao"],
+          proteina: ["salmao"],
+          doces: ["tangerina"],
+          complementos: ["castanha_caju"],
+          molhos: ["shoyo", "balsamico", "azeite_limao"]
         }
       }
     ];
 
     // --- STATE MANAGEMENT ---
-    let selectedIngredients = new Set();
-    let currentFilter = "all"; // "all", "exact", "missing-1", "missing-2"
-    let currentSort = "best";  // "best", "missing-asc", "match-desc", "name-asc"
+    let selectedIngredientIds = new Set();
+    let currentFilter = "all"; 
+    let currentSort = "best";
 
-    // Flatten all required ingredients per recipe
-    function getRecipeIngredientList(recipe) {
+    // Helper: get list of ingredient IDs for a recipe
+    function getRecipeIngredientIds(recipe) {
       const list = new Set();
       Object.values(recipe.ingredients).forEach(arr => {
-        arr.forEach(item => list.add(item));
+        arr.forEach(id => list.add(id));
       });
       return Array.from(list);
     }
@@ -447,42 +587,81 @@
     document.addEventListener("DOMContentLoaded", () => {
       renderIngredientsList();
       setupEventListeners();
+      updateStaticUIText();
       updateRecipesDisplay();
       lucide.createIcons();
     });
 
-    // Render Sidebar Ingredients List
+    // Update Static UI Language Elements
+    function updateStaticUIText() {
+      const t = translations[currentLang];
+
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        if (t[key]) {
+          el.innerText = t[key];
+        }
+      });
+
+      document.getElementById("ingredient-search").placeholder = t.searchPlaceholder;
+
+      // Update Language Toggle Buttons Styling
+      const ptBtn = document.getElementById("lang-pt-btn");
+      const enBtn = document.getElementById("lang-en-btn");
+
+      if (currentLang === "pt") {
+        ptBtn.className = "px-2 py-1 rounded-lg text-xs font-bold transition-all text-emerald-950 bg-emerald-400 shadow-sm";
+        enBtn.className = "px-2 py-1 rounded-lg text-xs font-bold transition-all text-emerald-100 hover:text-white";
+      } else {
+        enBtn.className = "px-2 py-1 rounded-lg text-xs font-bold transition-all text-emerald-950 bg-emerald-400 shadow-sm";
+        ptBtn.className = "px-2 py-1 rounded-lg text-xs font-bold transition-all text-emerald-100 hover:text-white";
+      }
+    }
+
+    // Render Sidebar Ingredients List (Sorted alphabetically based on active language)
     function renderIngredientsList(query = "") {
       const container = document.getElementById("ingredients-container");
       container.innerHTML = "";
+      const t = translations[currentLang];
 
       let totalRendered = 0;
 
-      ingredientCategories.forEach(cat => {
-        const filteredItems = cat.items.filter(item => 
-          item.toLowerCase().includes(query.toLowerCase())
-        );
+      Object.keys(categoryInfo).forEach(catId => {
+        const catObj = categoryInfo[catId];
+        const categoryTitle = catObj[currentLang];
 
-        if (filteredItems.length === 0) return;
+        // Filter items in category and sort alphabetically by current language label
+        let catItems = ingredientsMaster.filter(i => i.cat === catId);
+        
+        catItems = catItems.filter(item => {
+          const name = item[currentLang];
+          return name.toLowerCase().includes(query.toLowerCase());
+        });
 
-        totalRendered += filteredItems.length;
+        // Alphabetical sort by active language
+        catItems.sort((a, b) => a[currentLang].localeCompare(b[currentLang]));
+
+        if (catItems.length === 0) return;
+
+        totalRendered += catItems.length;
 
         const catEl = document.createElement("div");
         catEl.className = "bg-slate-50/80 p-3 rounded-2xl border border-slate-200/60";
 
         catEl.innerHTML = `
           <div class="flex items-center gap-1.5 mb-2 text-xs font-bold text-slate-700 uppercase tracking-wider">
-            <i data-lucide="${cat.icon}" class="w-3.5 h-3.5 text-brand-600"></i>
-            <span>${cat.title}</span>
+            <i data-lucide="${catObj.icon}" class="w-3.5 h-3.5 text-brand-600"></i>
+            <span>${categoryTitle}</span>
           </div>
           <div class="space-y-1">
-            ${filteredItems.map(item => {
-              const isChecked = selectedIngredients.has(item);
+            ${catItems.map(item => {
+              const isChecked = selectedIngredientIds.has(item.id);
+              const labelName = item[currentLang];
               return `
                 <label class="flex items-center space-x-3 p-2 rounded-xl hover:bg-white active:bg-slate-100 cursor-pointer transition-colors text-xs text-slate-700 select-none touch-target">
-                  <input type="checkbox" data-ingredient="${item}" ${isChecked ? 'checked' : ''} 
+                  <input type="checkbox" data-ingredient-id="${item.id}" ${isChecked ? 'checked' : ''} 
                     class="ingredient-checkbox w-5 h-5 text-brand-600 rounded-md border-slate-300 focus:ring-brand-500 focus:ring-offset-0 accent-brand-600 cursor-pointer shrink-0">
-                  <span class="${isChecked ? 'font-bold text-slate-900' : 'font-medium'} leading-snug">${item}</span>
+                  <span class="${isChecked ? 'font-bold text-slate-900' : 'font-medium'} leading-snug">${labelName}</span>
                 </label>
               `;
             }).join('')}
@@ -495,7 +674,7 @@
       if (totalRendered === 0) {
         container.innerHTML = `
           <div class="text-center py-8 text-xs text-slate-400">
-            Nenhum ingrediente encontrado com "${query}".
+            ${t.noIngredientFound(query)}
           </div>
         `;
       }
@@ -505,14 +684,33 @@
 
     // Set Up Event Listeners
     function setupEventListeners() {
+      // Language Switching
+      document.getElementById("lang-pt-btn").addEventListener("click", () => {
+        if (currentLang !== "pt") {
+          currentLang = "pt";
+          updateStaticUIText();
+          renderIngredientsList(document.getElementById("ingredient-search").value);
+          updateRecipesDisplay();
+        }
+      });
+
+      document.getElementById("lang-en-btn").addEventListener("click", () => {
+        if (currentLang !== "en") {
+          currentLang = "en";
+          updateStaticUIText();
+          renderIngredientsList(document.getElementById("ingredient-search").value);
+          updateRecipesDisplay();
+        }
+      });
+
       // Checkbox Toggle
       document.getElementById("ingredients-container").addEventListener("change", (e) => {
         if (e.target.classList.contains("ingredient-checkbox")) {
-          const item = e.target.getAttribute("data-ingredient");
+          const itemId = e.target.getAttribute("data-ingredient-id");
           if (e.target.checked) {
-            selectedIngredients.add(item);
+            selectedIngredientIds.add(itemId);
           } else {
-            selectedIngredients.delete(item);
+            selectedIngredientIds.delete(itemId);
           }
           updateBadges();
           updateRecipesDisplay();
@@ -521,14 +719,14 @@
 
       // Quick Select All / Clear All
       document.getElementById("btn-select-all").addEventListener("click", () => {
-        ingredientCategories.forEach(cat => cat.items.forEach(i => selectedIngredients.add(i)));
+        ingredientsMaster.forEach(i => selectedIngredientIds.add(i.id));
         renderIngredientsList(document.getElementById("ingredient-search").value);
         updateBadges();
         updateRecipesDisplay();
       });
 
       document.getElementById("btn-deselect-all").addEventListener("click", () => {
-        selectedIngredients.clear();
+        selectedIngredientIds.clear();
         renderIngredientsList(document.getElementById("ingredient-search").value);
         updateBadges();
         updateRecipesDisplay();
@@ -609,7 +807,7 @@
 
     // Update Counter Badges
     function updateBadges() {
-      const count = selectedIngredients.size;
+      const count = selectedIngredientIds.size;
       document.getElementById("mobile-badge-count").innerText = count;
       document.getElementById("desktop-badge-count").innerText = count;
       document.getElementById("floating-badge-count").innerText = count;
@@ -619,22 +817,24 @@
     function updateRecipesDisplay() {
       const grid = document.getElementById("recipes-grid");
       const emptyState = document.getElementById("empty-state");
+      const t = translations[currentLang];
       grid.innerHTML = "";
 
       // Process recipe scores
-      let processed = recipes.map(recipe => {
-        const required = getRecipeIngredientList(recipe);
-        const present = required.filter(item => selectedIngredients.has(item));
-        const missing = required.filter(item => !selectedIngredients.has(item));
-        const matchPercentage = Math.round((present.length / required.length) * 100);
+      let processed = recipesData.map(recipe => {
+        const requiredIds = getRecipeIngredientIds(recipe);
+        const presentIds = requiredIds.filter(id => selectedIngredientIds.has(id));
+        const missingIds = requiredIds.filter(id => !selectedIngredientIds.has(id));
+        const matchPercentage = Math.round((presentIds.length / requiredIds.length) * 100);
 
         return {
           ...recipe,
-          requiredList: required,
-          presentList: present,
-          missingList: missing,
-          missingCount: missing.length,
-          presentCount: present.length,
+          titleText: recipe.title[currentLang],
+          requiredIds,
+          presentIds,
+          missingIds,
+          missingCount: missingIds.length,
+          presentCount: presentIds.length,
           matchPercentage
         };
       });
@@ -660,13 +860,13 @@
         } else if (currentSort === "match-desc") {
           return b.presentCount - a.presentCount;
         } else if (currentSort === "name-asc") {
-          return a.title.localeCompare(b.title);
+          return a.titleText.localeCompare(b.titleText);
         }
         return 0;
       });
 
       // Update Result Counter
-      document.getElementById("results-summary").innerText = `Exibindo ${processed.length} de ${recipes.length} receitas`;
+      document.getElementById("results-summary").innerText = t.showingCount(processed.length, recipesData.length);
 
       if (processed.length === 0) {
         emptyState.classList.remove("hidden");
@@ -686,6 +886,7 @@
     // Create Recipe Card Element
     function createRecipeCard(recipe) {
       const card = document.createElement("div");
+      const t = translations[currentLang];
       
       let borderStyle = "border-slate-200/80 hover:border-slate-300";
       let statusBadge = "";
@@ -695,7 +896,7 @@
         statusBadge = `
           <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-200/80">
             <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-600"></i>
-            Pronta
+            ${t.readyBadge}
           </span>
         `;
       } else if (recipe.missingCount === 1) {
@@ -703,7 +904,7 @@
         statusBadge = `
           <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-100 text-amber-800 border border-amber-200/80">
             <i data-lucide="alert-circle" class="w-3.5 h-3.5 text-amber-600"></i>
-            Falta 1
+            ${t.missing1Badge}
           </span>
         `;
       } else if (recipe.missingCount === 2) {
@@ -711,24 +912,27 @@
         statusBadge = `
           <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-orange-100 text-orange-800 border border-orange-200/80">
             <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-orange-600"></i>
-            Faltam 2
+            ${t.missing2Badge}
           </span>
         `;
       } else {
         statusBadge = `
           <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-medium bg-slate-100 text-slate-600 border border-slate-200">
-            Faltam ${recipe.missingCount}
+            ${t.missingNBadge(recipe.missingCount)}
           </span>
         `;
       }
 
       card.className = `bg-white rounded-2xl border ${borderStyle} p-4 sm:p-5 shadow-sm transition-all duration-200 flex flex-col justify-between hover:shadow-md`;
 
+      // Get missing item labels
+      const missingLabels = recipe.missingIds.map(id => getIngredientById(id)[currentLang]);
+
       card.innerHTML = `
         <div>
           <!-- Header & Badge -->
           <div class="flex items-start justify-between gap-2 mb-2.5">
-            <h3 class="text-sm font-bold text-slate-800 leading-snug flex-1">${recipe.title}</h3>
+            <h3 class="text-sm font-bold text-slate-800 leading-snug flex-1">${recipe.titleText}</h3>
             <div class="shrink-0">
               ${statusBadge}
             </div>
@@ -737,7 +941,7 @@
           <!-- Progress Match Bar -->
           <div class="mb-3">
             <div class="flex justify-between items-center text-[10px] text-slate-500 font-semibold mb-1">
-              <span>Aproveitamento:</span>
+              <span>${t.matchLabel}</span>
               <span class="${recipe.matchPercentage === 100 ? 'text-emerald-700 font-bold' : 'text-slate-600'}">${recipe.matchPercentage}%</span>
             </div>
             <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
@@ -745,15 +949,15 @@
             </div>
           </div>
 
-          <!-- Highlight Missing Ingredients in Red/Orange Badges -->
+          <!-- Highlight Missing Ingredients in Red Badges -->
           ${recipe.missingCount > 0 ? `
             <div class="mb-3 p-2 rounded-xl bg-rose-50/80 border border-rose-100 text-xs">
-              <span class="text-[10px] font-bold text-rose-800 uppercase tracking-wider block mb-1">Falta na sua geladeira:</span>
+              <span class="text-[10px] font-bold text-rose-800 uppercase tracking-wider block mb-1">${t.missingTitle}</span>
               <div class="flex flex-wrap gap-1">
-                ${recipe.missingList.map(item => `
+                ${missingLabels.map(label => `
                   <span class="bg-rose-100 text-rose-900 border border-rose-200 px-2 py-0.5 rounded-md font-semibold text-[11px] flex items-center gap-1">
                     <i data-lucide="x" class="w-3 h-3 text-rose-600"></i>
-                    ${item}
+                    ${label}
                   </span>
                 `).join('')}
               </div>
@@ -762,13 +966,16 @@
 
           <!-- Categorized Ingredients Breakdown -->
           <div class="space-y-2 my-3">
-            ${Object.entries(recipe.ingredients).map(([catName, items]) => {
+            ${Object.entries(recipe.ingredients).map(([catId, itemIds]) => {
+              const categoryTitle = categoryInfo[catId][currentLang];
               return `
                 <div class="text-xs">
-                  <span class="font-bold text-slate-400 uppercase tracking-wider text-[9px] block mb-0.5">${catName}</span>
+                  <span class="font-bold text-slate-400 uppercase tracking-wider text-[9px] block mb-0.5">${categoryTitle}</span>
                   <div class="flex flex-wrap gap-1">
-                    ${items.map(item => {
-                      const hasIt = selectedIngredients.has(item);
+                    ${itemIds.map(id => {
+                      const ingObj = getIngredientById(id);
+                      const label = ingObj[currentLang];
+                      const hasIt = selectedIngredientIds.has(id);
                       return `
                         <span class="px-2 py-0.5 rounded-md text-[11px] font-medium flex items-center gap-1 ${
                           hasIt 
@@ -776,7 +983,7 @@
                             : 'bg-slate-50 text-slate-400 border border-slate-100 line-through'
                         }">
                           <i data-lucide="${hasIt ? 'check' : 'minus'}" class="w-2.5 h-2.5 ${hasIt ? 'text-emerald-600' : 'text-slate-300'}"></i>
-                          ${item}
+                          ${label}
                         </span>
                       `;
                     }).join('')}
@@ -789,9 +996,9 @@
 
         <!-- Footer Stats -->
         <div class="pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500 mt-2">
-          <span>${recipe.requiredList.length} ingredientes total</span>
+          <span>${t.totalIngredients(recipe.requiredIds.length)}</span>
           <span class="font-bold text-emerald-700">
-            ${recipe.presentCount} / ${recipe.requiredList.length} na mão
+            ${t.onHand(recipe.presentCount, recipe.requiredIds.length)}
           </span>
         </div>
       `;
