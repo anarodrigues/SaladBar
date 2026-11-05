@@ -2,7 +2,7 @@
 <html lang="pt-BR" class="h-full bg-slate-50">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SaladBar - Receitas Práticas com Ingredientes da Geladeira</title>
   <!-- Favicons (inlined so they work even as a single file) -->
   <meta name="description" content="Monte saladas incríveis com o que tem na sua geladeira. / Build amazing salads with what is in your fridge." />
@@ -57,6 +57,22 @@
     .touch-target {
       min-height: 44px;
       min-width: 44px;
+    }
+    /* Larger, more readable type on phones */
+    @media (max-width: 767px) {
+      .text-\[9px\]  { font-size: 11.5px !important; line-height: 1.35 !important; }
+      .text-\[10px\] { font-size: 12.5px !important; line-height: 1.4 !important; }
+      .text-\[11px\] { font-size: 13.5px !important; line-height: 1.4 !important; }
+      .text-xs      { font-size: 14px !important;   line-height: 1.45 !important; }
+      .text-sm      { font-size: 16px !important;   line-height: 1.4 !important; }
+      .text-lg      { font-size: 20px !important; }
+      .text-xl      { font-size: 22px !important; }
+      /* 16px inputs stop iOS from zooming the page on focus */
+      input[type="text"], select { font-size: 16px !important; }
+      /* Bigger tap targets for ingredient chips inside recipe cards */
+      [data-toggle-ingredient] { padding: 6px 10px !important; min-height: 32px; }
+      [data-toggle-ingredient] svg, [data-toggle-ingredient] i { width: 14px !important; height: 14px !important; }
+      #lang-pt-btn, #lang-en-btn { padding: 6px 10px !important; }
     }
     /* Custom Scrollbar */
     ::-webkit-scrollbar {
